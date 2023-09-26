@@ -1,0 +1,7 @@
+photos
+test
+train
+custom_tests
+# best_model.pth
+__pycache__
+.ipynb_checkpoints
