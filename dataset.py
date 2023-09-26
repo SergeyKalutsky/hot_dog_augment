@@ -28,12 +28,9 @@ class FoodDataset(Dataset):
         # Reading, converting and normalizing image
         img = cv2.imread(self.dir + '/' + image_name, cv2.IMREAD_COLOR)
         # img = cv2.resize(img, self.img_size)
-        try:
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float32)
-            img /= 255.
-            img = torch.from_numpy(img).permute(2, 0, 1)
-        except:
-            print(self.dir + '/' + image_name)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float32)
+        img /= 255.
+        img = torch.from_numpy(img).permute(2, 0, 1)
 
         if self.mode == "train" or self.mode == "val":
 
@@ -74,12 +71,11 @@ def read_img_augment(path):
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.uint8)
     return img
 
-
-def read_random_images(num, path):
-    files = random.sample(os.listdir(path), num)
+def read_random_images(num, directory):
+    files = random.sample(os.listdir(directory), num)
     lst = []
     for file in files:
-        path = f'{path}/{file}'
+        path = f'{directory}/{file}'
         lst.append(read_img_augment(path))
     images = np.array(lst, dtype=np.uint8)
     return images
