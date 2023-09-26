@@ -24,13 +24,11 @@ class FoodDataset(Dataset):
     def __getitem__(self, idx):
 
         image_name = self.imgs[idx]
-
         # Reading, converting and normalizing image
         img = cv2.imread(self.dir + '/' + image_name, cv2.IMREAD_COLOR)
         # img = cv2.resize(img, self.img_size)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float32)
         img /= 255.
-        img = torch.from_numpy(img).permute(2, 0, 1)
 
         if self.mode == "train" or self.mode == "val":
 
@@ -40,12 +38,14 @@ class FoodDataset(Dataset):
             if self.transforms:
                 img = self.transforms(img)
 
+            img = torch.from_numpy(img.copy()).permute(2, 0, 1)
             return img, label
 
         elif self.mode == "test":
             # Apply Transforms on image
             if self.transforms:
                 img = self.transforms(img)
+            img = torch.from_numpy(img.copy()).permute(2, 0, 1)
             return img
 
     def __len__(self):
