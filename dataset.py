@@ -79,7 +79,7 @@ def read_random_images(num, path):
     files = random.sample(os.listdir(path), num)
     lst = []
     for file in files:
-        path = f'train/{file}'
+        path = f'{path}/{file}'
         lst.append(read_img_augment(path))
     images = np.array(lst, dtype=np.uint8)
     return images
